@@ -1,6 +1,6 @@
 open Belt;
 
-[@bs.module] external lab : Js.t({..}) = "../../../../src/labdemo/lab.json";
+[@bs.module] external lab : Js.t({..}) = "./lab.json";
 
 type keyword = string;
 
