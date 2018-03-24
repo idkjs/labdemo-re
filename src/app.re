@@ -6,11 +6,13 @@ open Belt;
 
 let component = ReasonReact.statelessComponent("LabExample");
 
+let gr = GetRandom.getRandom;
+
 let make = _children => {
   ...component,
   render: _self => {
     let components = Lab.components;
-    let getSvg = Lab.StringMap.find("Svg", Lab.componentMap);
+    let getSvg = Lab.StringMap.find(gr, Lab.componentMap);
     Js.log(components);
     <div>
       <h1> (ReasonReact.stringToElement("Components")) </h1>
