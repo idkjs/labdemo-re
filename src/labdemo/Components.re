@@ -123,3 +123,16 @@ module Decode = {
 let x = lab##components;
 
 let components = x |> Decode.components;
+/* module StringMap = Map.Make(String);
+
+   let myList = Belt.List.ofArray(components);
+
+   /* List.length(myList) |> Js.log; */
+   let getComponentMap = myList =>
+     List.fold_left(
+       (map, user) => StringMap.add(user.name, user, map),
+       StringMap.empty,
+       myList,
+     );
+
+   let componentMap = getComponentMap(myList); */

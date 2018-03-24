@@ -1,5 +1,4 @@
-open Belt;
-
+/* open Belt; */
 [@bs.module] external lab : Js.t({..}) = "./labdemo/lab.json";
 
 type keyword = string;
@@ -117,9 +116,23 @@ module Decode = {
   let components = json : array(componentItem) =>
     json
     |> Json.Decode.array(decodeComponent)
-    |> Array.map(_, component => component);
+    |> Belt.Array.map(_, component => component);
 };
 
 let x = lab##components;
 
 let components = x |> Decode.components;
+
+module StringMap = Map.Make(String);
+
+let myList = Belt.List.ofArray(components);
+
+/* List.length(myList) |> Js.log; */
+let getComponentMap = myList =>
+  List.fold_left(
+    (map, user) => StringMap.add(user.name, user, map),
+    StringMap.empty,
+    myList,
+  );
+
+let componentMap = getComponentMap(myList);
