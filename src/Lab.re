@@ -1,6 +1,6 @@
 open Belt;
 
-[@bs.module] external lab : Js.t({..}) = "./lab.json";
+[@bs.module] external lab : Js.t({..}) = "./labdemo/lab.json";
 
 type keyword = string;
 
@@ -122,4 +122,4 @@ module Decode = {
 
 let x = lab##components;
 
-let testdata = x |> Decode.components;
+let components = x |> Decode.components;
