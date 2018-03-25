@@ -1,70 +1,43 @@
-open Belt;
+/* [@bs.module] external labJson : Js.t({..}) = "./labdemo/lab.json";
+/* [@bs.module] external labJson : Js.Json.t = "./labdemo/lab.json"; */
 
-[@bs.module] external lab : Js.t({..}) = "./lab.json";
+/*
+ need to set this up to get values back from option
+  */
+/* open Js.Option;
 
-type keyword = string;
+module Option = {
+  let optionMap = (fn, opt) =>
+    switch (opt) {
+    | Some(x) => fn(x) |> some
+    | None => None
+    };
+  let optionWithDefault = (defaultValue, opt) =>
+    switch (opt) {
+    | Some(x) => x
+    | None => defaultValue
+    };
+}; */
 
-type example = string;
-
-type props = {
-  src: option(string),
-  w: option(int),
-  mt: option(int),
-  mb: option(int),
-  my: option(int),
-  fontSize: option(array(int)),
-  fontWeight: option(string),
-  color: option(string),
-  borderColor: option(string),
-  hover: option(hover),
-  active: option(active),
-}
-and hover = {
-  opacity: int,
-  transition: string,
-}
-and active = {
-  opacity: int,
-  transition: string,
-};
-
-type style = {
-  display: option(string),
-  maxWidth: option(string),
-  textTransform: option(string),
-  letterSpacing: option(string),
-  lineHeight: option(string),
-  textDecoration: option(string),
-  whiteSpace: option(string),
-  transition: option(string),
-  opacity: option(int),
-  height: option(string),
-  width: option(string),
-  overflow: option(string),
-  textAlign: option(string),
-};
-
-type componentItem = {
-  name: string,
-  type_: option(string),
-  props: option(props),
-  style: option(style),
-  examples: array(example),
-  system: option(array(string)),
-  imports: option(array(string)),
-  jsx: option(string),
-  keyword: option(array(keyword)),
-  description: option(string),
-};
-
-module Decode = {
-  let decodeProps = json : props => {
-    let hover = json : hover =>
+module Decoder = {
+  let decodeLayout = json : Types.layout =>
+    Json.Decode.{
+      i: field("i", string, json),
+      name: field("name", string, json),
+      w: field("w", int, json),
+      h: field("h", int, json),
+      x: field("x", int, json),
+      y: field("y", int, json),
+      moved: json |> optional(field("moved", bool)),
+      static: json |> optional(field("static", bool)),
+    };
+  let decodeProps = json : Types.props => {
+    let hover = json : Types.hover =>
       Json.Decode.{
         opacity: json |> field("opacity", int),
         transition: json |> field("transition", string),
       };
-    let active = json : active =>
+    let active = json : Types.active =>
       Json.Decode.{
         opacity: json |> field("opacity", int),
         transition: json |> field("transition", string),
@@ -83,7 +56,7 @@ module Decode = {
       active: json |> optional(field("active", active)),
     };
   };
-  let decodeStyle = json : style =>
+  let decodeStyle = json : Types.style =>
     Json.Decode.{
       display: json |> optional(field("display", string)),
       maxWidth: json |> optional(field("maxWidth", string)),
@@ -99,7 +72,7 @@ module Decode = {
       overflow: json |> optional(field("overflow", string)),
       textAlign: json |> optional(field("textAlign", string)),
     };
-  let decodeComponent = json : componentItem =>
+  let decodeComponent = json : Types.component =>
     Json.Decode.{
       name: field("name", string, json),
       type_: json |> optional(field("type", string)),
@@ -114,26 +87,34 @@ module Decode = {
         json |> optional(field("imports", Json.Decode.array(string))),
       description: json |> optional(field("description", string)),
     };
-  let components = json : array(componentItem) =>
-    json
-    |> Json.Decode.array(decodeComponent)
-    |> Array.map(_, component => component);
+  let decodeLab = json : Types.lab =>
+    Json.Decode.{
+      name: json |>field("name", string),
+      library: json |>field("library", string),
+      layout: json |>field("layout", Json.Decode.array(decodeLayout)),
+      components:
+      json |>field("components", Json.Decode.list(decodeComponent)),
+    };
+  let defaultErrorMsg = "-- unknown value --";
 };
 
-let x = lab##components;
+let lab = labJson |> Decoder.decodeLab;
 
-let components = x |> Decode.components;
-components |> Js.log2("FROM_COMPONENTS_RE", _);
-/* module StringMap = Map.Make(String);
+let components: list(Types.component) = lab.components;
+/* let components = lab.components; */
+/* components |> Js.log(_); */
 
-   let myList = Belt.List.ofArray(components);
+module StringMap = Map.Make(String);
 
-   /* List.length(myList) |> Js.log; */
-   let getComponentMap = myList =>
-     List.fold_left(
-       (map, user) => StringMap.add(user.name, user, map),
-       StringMap.empty,
-       myList,
-     );
+/* let myList = Belt.List.ofArray(components); */
+let myList = components;
 
-   let componentMap = getComponentMap(myList); */
+/* List.length(myList) |> Js.log; */
+let getComponentMap = myList =>
+  List.fold_left(
+    (map, component) => StringMap.add(component##name, component, map),
+    StringMap.empty,
+    myList,
+  );
+
+let componentMap = getComponentMap(myList); */

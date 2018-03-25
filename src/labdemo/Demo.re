@@ -4,7 +4,7 @@ let x = lab##components;
 
 /* non-working attempt to encode to record. This line breaks DemoMap.re */
 /* let x = lab##components |> Js.Array.map(Json.Encode.string); */
-let x2 = Belt.List.fromArray(x);
+let x2 = Belt.List.ofArray(x);
 
 /* Js.log2("length using array length: ", Belt.Array.length(x)); */
 Js.log2("length using list length: ", Belt.List.length(x2));

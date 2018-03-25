@@ -1,6 +1,6 @@
 module StringMap = Map.Make(String);
 
-let myList = Belt.List.fromArray(Demo.x);
+let myList = Belt.List.ofArray(Demo.x);
 
 /* let myList = LabDecoder.components; */
 /* let myList = DateDemo.c; */

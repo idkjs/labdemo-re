@@ -14,6 +14,9 @@ let make = _children => {
   ...component,
   render: _self => {
     let components = Lab.components;
+    /* comment above `components` and uncomment below to test components
+    which have been decoded AND typed. Above is just decoded... */
+    /* let components = LabTyped.components; */
     let whatever = Lab.StringMap.find(gr, Lab.componentMap);
     let x = DemoVariants.renderer(`Image);
     /* Js.log(components); */
@@ -34,6 +37,5 @@ let make = _children => {
         )
       </ul>
     </div>;
-    /* <div> (ReasonReact.stringToElement(getIt)) </div>; */
   },
 };

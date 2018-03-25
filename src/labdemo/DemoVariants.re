@@ -74,11 +74,11 @@ type componentV = [
 
 module StringMap = Map.Make(String);
 
-let cList = Belt.List.ofArray(Components.components);
+let cList = Belt.List.ofArray(Lab.components);
 
 /* List.length(myList) |> Js.log; */
 let getComponentMap = list => {
-  open Components;
+  open Lab;
 
   List.fold_left(
     (map, component) => StringMap.add(component.name, component, map),

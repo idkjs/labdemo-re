@@ -6,5 +6,8 @@
     "react-jsx": 2
   },
   "bsc-flags": ["-bs-super-errors"],
+  "warnings": {
+    "error": "+101"
+  },
   "refmt": 3
 }
