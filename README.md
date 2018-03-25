@@ -68,7 +68,7 @@ let getComponentMap = myList =>
 ninja: build stopped: subcommand failed.
 ```
 
-* So, something about `list(Types.component)`, which I am assuming is a record type because we decoded it, in LabTyped, that doesnt work with StringMap's String module. The difference between LabTyped.re and Lab.re is that in Lab.re I jump right to components by defining with `components = lab##components;` while in LabTyped.re I decode all of the lab.json then pull components off of the already decoded lab with `components = lab
+* So, something about `list(Types.component)` in LabTyped.re, (which I am assuming is a record type because we decoded it),that doesnt work with StringMap's String module. The difference between LabTyped.re and Lab.re is that in Lab.re I jump right to components by defining with `components = lab##components;` while in LabTyped.re I decode all of the lab.json then pull components off of the already decoded lab with `components = lab.components`
 
 - I can't quite get my head around this yet. Anyone? Anyone? Anyone?
 
