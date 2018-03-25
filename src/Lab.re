@@ -130,7 +130,7 @@ let myList = Belt.List.ofArray(components);
 /* List.length(myList) |> Js.log; */
 let getComponentMap = myList =>
   List.fold_left(
-    (map, user) => StringMap.add(user.name, user, map),
+    (map, component) => StringMap.add(component.name, component, map),
     StringMap.empty,
     myList,
   );

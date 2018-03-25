@@ -4,17 +4,24 @@
 
 open Belt;
 
-let component = ReasonReact.statelessComponent("LabExample");
+let component = ReasonReact.statelessComponent("App");
 
 let gr = GetRandom.getRandom;
+
+gr |> Js.log;
 
 let make = _children => {
   ...component,
   render: _self => {
     let components = Lab.components;
-    let getSvg = Lab.StringMap.find(gr, Lab.componentMap);
-    Js.log(components);
-    <div>
+    let whatever = Lab.StringMap.find(gr, Lab.componentMap);
+    let x = DemoVariants.renderer(`Image);
+    /* Js.log(components); */
+    <div className="App">
+    <h1> (ReasonReact.stringToElement("One Random Component")) </h1>
+    <div> (ReasonReact.stringToElement(whatever.name)) </div>
+    <h1> (ReasonReact.stringToElement("Using Variants?")) </h1>
+    <div> (ReasonReact.stringToElement(x.name)) </div>
       <h1> (ReasonReact.stringToElement("Components")) </h1>
       <ul>
         (
@@ -26,8 +33,7 @@ let make = _children => {
           |> ReasonReact.arrayToElement
         )
       </ul>
-      <h1> (ReasonReact.stringToElement("GetComponents")) </h1>
-      <div> (ReasonReact.stringToElement(getSvg.name)) </div>
     </div>;
+    /* <div> (ReasonReact.stringToElement(getIt)) </div>; */
   },
 };

@@ -123,6 +123,7 @@ module Decode = {
 let x = lab##components;
 
 let components = x |> Decode.components;
+components |> Js.log2("FROM_COMPONENTS_RE", _);
 /* module StringMap = Map.Make(String);
 
    let myList = Belt.List.ofArray(components);
